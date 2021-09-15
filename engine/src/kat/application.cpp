@@ -1,7 +1,10 @@
 #include "kat/application.hpp"
+#include <rapidjson/document.h>
+#include <fstream>
+
 
 namespace kat {
-    Application::Application(const ApplicationConfig& cfg) : m_Config(cfg) {
+    Application::Application() {
 
     }
 
@@ -26,6 +29,8 @@ namespace kat {
 
     void Application::load() {
         // load configs
+
+        m_Config = ApplicationConfig::load("appcfg.json");
     }
 
     void Application::createInternal() {
@@ -92,5 +97,13 @@ namespace kat {
 
     void Application::close() {
         m_Running = false;
+    }
+
+    ApplicationConfig ApplicationConfig::load(const std::string& path) {
+        // read file
+
+        rapidjson::Document cfgdoc = loadJSON(path);
+        
+        
     }
 }

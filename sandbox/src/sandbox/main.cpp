@@ -1,6 +1,6 @@
 #include "sandbox/main.hpp"
 
-SandboxApp::SandboxApp(const kat::ApplicationConfig& cfg) : kat::Application(cfg) {
+SandboxApp::SandboxApp() : kat::Application() {
 
 }
 
@@ -23,8 +23,7 @@ void SandboxApp::cleanup() {
 }
 
 int main() {
-    kat::ApplicationConfig cfg{};
-    SandboxApp app(cfg);
+    SandboxApp app;
 
     app.launch();
     return 0;

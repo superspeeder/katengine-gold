@@ -1,0 +1,10 @@
+{
+    "name": "sandbox",
+    "window": {
+        "width": 800,
+        "height": 800,
+        "fixed_size": true,
+        "title": "Sandbox App",
+        "fullscreen": false
+    }
+}

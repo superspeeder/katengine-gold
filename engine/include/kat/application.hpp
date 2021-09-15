@@ -6,6 +6,8 @@ namespace kat {
 
     struct ApplicationConfig {
 
+
+        static ApplicationConfig load(const std::string& filename);
     };
 
     struct ApplicationMetrics {
@@ -15,7 +17,7 @@ namespace kat {
     class Application {
     public:
 
-        Application(const ApplicationConfig& cfg);
+        Application();
         virtual ~Application();
 
         void launch();
@@ -41,7 +43,7 @@ namespace kat {
         void preCleanup();
         void postCreate();
 
-        ApplicationConfig m_Config;
+        ApplicationConfig m_Config{};
         bool m_Running = true;
     };
 }

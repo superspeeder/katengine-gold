@@ -5,7 +5,7 @@
 
 class SandboxApp : public kat::Application {
 public:
-    SandboxApp(const kat::ApplicationConfig& cfg);
+    SandboxApp();
     ~SandboxApp();
 
     void create() override;
