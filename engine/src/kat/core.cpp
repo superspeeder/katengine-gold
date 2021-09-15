@@ -3,11 +3,85 @@
 
 namespace kat {
     rapidjson::Document loadJSON(const std::string& path) {
-        std::ifstream f(path);
-        std::string contents((std::istreambuf_iterator<char>(f)), std::istreambuf_iterator<char>());
+        std::string text;
+        try {
+            text = readFile(path);
+        } catch (std::exception e) {
+            spdlog::error("Failed to load JSON  from path `{}`. Using blank json.", path);
+            text = "";
+        }
+        return loadJSONMemory(text);
+    }
 
+    rapidjson::Document loadJSONMemory(const std::string& text) {
         rapidjson::Document document;
-        document.Parse(contents.c_str());
+        document.Parse(text.c_str());
         return document;
     }
+
+    JsonSchema loadJSONSchema(const std::string& path) {
+        std::string text;
+        try {
+            text = readFile(path);
+        } catch (std::exception e) {
+            spdlog::error("Failed to load JSON schema from path `{}`. Using blank schema.", path);
+            text = "{}";
+        }
+        return loadJSONSchemaMemory(text);
+    }
+
+    JsonSchema loadJSONSchemaMemory(const std::string& text) {
+        JsonSchema schema;
+        rapidjson::Document doc;
+        doc.Parse(text.c_str());
+        if (doc.HasParseError()) {
+            spdlog::error("Schema JSON is invalid. Using blank schema.");
+            doc.Parse("{}");
+        }
+
+        schema.doc = rapidjson::SchemaDocument(doc);
+        schema.validator = rapidjson::SchemaValidator(schema.doc);
+        return schema;
+    }
+
+    std::string readFile(const std::string& path) {
+        std::ifstream f(path, std::ios::ate);
+
+        if (!f.good()) {
+            throw std::runtime_error("Failed to read file `" + path + "`.");
+        }
+
+        size_t size = f.tellg();
+        f.seekg(0);
+        char* buf = new char[size];
+        f.read(buf, size);
+        f.close();
+
+        return buf;
+    }
+
+    rapidjson::Document loadJSON(const std::string& path, JsonSchema& schema) {
+        rapidjson::Document d = loadJSON(path);
+        if (schema.isDocumentValid(d)) {
+            return d;
+        }
+
+        throw std::runtime_error("Schema failed to validate");
+    }
+
+    rapidjson::Document loadJSONMemory(const std::string& text, JsonSchema& schema) {
+        rapidjson::Document d = loadJSONMemory(text);
+        if (schema.isDocumentValid(d)) {
+            return d;
+        }
+
+        throw std::runtime_error("Schema failed to validate");
+    }
+
+    bool JsonSchema::isDocumentValid(rapidjson::Document& doc) {
+        return doc.Accept(validator);
+    }
+
+
+
 }

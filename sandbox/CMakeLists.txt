@@ -7,3 +7,5 @@ add_executable(sandbox ${SANDBOX_SOURCE})
 target_include_directories(sandbox PUBLIC include/)
 
 target_link_libraries(sandbox kat::engine)
+
+add_custom_target(run_sandbox sandbox WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/run)

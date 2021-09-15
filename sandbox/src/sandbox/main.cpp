@@ -13,9 +13,7 @@ void SandboxApp::create() {
 }
 
 void SandboxApp::update(double dt) {
-    if (++count >= 10e6) {
-        close();
-    }
+
 }
 
 void SandboxApp::cleanup() {

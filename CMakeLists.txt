@@ -13,6 +13,7 @@ find_package(Vulkan REQUIRED)
 find_package(glm REQUIRED)
 find_package(imgui REQUIRED)
 find_package(RapidJSON REQUIRED)
+find_package(cpr REQUIRED)
 
 add_subdirectory(stb)
 add_subdirectory(editor)
