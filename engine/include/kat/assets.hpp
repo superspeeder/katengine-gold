@@ -236,6 +236,8 @@ namespace kat {
         JsonAsset(const std::string& document, JsonSchema* jsonSchema);
         JsonAsset();
 
+        void loads(const std::string& str);
+
         static constexpr std::string_view type = "json-memory";
 
         rapidjson::Document& getDocument();
@@ -251,18 +253,27 @@ namespace kat {
     public:
         static constexpr std::string_view type = "json-dynamic";
 
+        DynamicSourcedJsonAsset(const std::string& source, const AssetSource& src);
+        DynamicSourcedJsonAsset(const char* source, const AssetSource& src);
+        DynamicSourcedJsonAsset(const std::vector<char>& source, const AssetSource& src);
 
+        DynamicSourcedJsonAsset(const std::string& source, const AssetSource& src, const JsonSchemaAsset* jsonSchema);
+        DynamicSourcedJsonAsset(const char* source, const AssetSource& src, const JsonSchemaAsset* jsonSchema);
+        DynamicSourcedJsonAsset(const std::vector<char>& source, const AssetSource& src, const JsonSchemaAsset* jsonSchema);
+
+        DynamicSourcedJsonAsset(const std::string& source, const AssetSource& src, JsonSchema* jsonSchema);
+        DynamicSourcedJsonAsset(const char* source, const AssetSource& src, JsonSchema* jsonSchema);
+        DynamicSourcedJsonAsset(const std::vector<char>& source, const AssetSource& src, JsonSchema* jsonSchema);
 
         virtual void dispose() override;
         virtual bool available() override;
 
     };
 
-
     class AssetManager {
 
     public:
-        AssetManager();
+        AssetManager(const std::string& db);
 
 
         Asset* getAsset(const std::string& typeID, const std::string& id);

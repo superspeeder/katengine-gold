@@ -8,3 +8,4 @@
 - GLFW3
 - Unofficial Vulkan Memory Allocator
 - CPR (c++ requests)
+- sqlite

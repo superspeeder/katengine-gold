@@ -325,6 +325,73 @@ namespace kat {
         return m_Document;
     }
 
+    void JsonAsset::dispose() {
+        
+    }
 
+    bool JsonAsset::available() {
+        return m_Document.GetParseError() == rapidjson::ParseErrorCode::kParseErrorNone;
+    }
+
+    void JsonAsset::loads(const std::string& text) {
+        m_Document.Parse(text.c_str());
+    }
+
+    DynamicSourcedJsonAsset::DynamicSourcedJsonAsset(const std::string& source, const AssetSource& src) : DynamicSourcedAsset(source, src), JsonAsset() {
+        if (DynamicSourcedAsset::available())
+            loads(m_Content);
+    }
+
+    DynamicSourcedJsonAsset::DynamicSourcedJsonAsset(const char* source, const AssetSource& src) : DynamicSourcedAsset(source, src), JsonAsset() {
+        if (DynamicSourcedAsset::available())
+            loads(m_Content);
+
+    }
+
+    DynamicSourcedJsonAsset::DynamicSourcedJsonAsset(const std::vector<char>& source, const AssetSource& src) : DynamicSourcedAsset(source, src), JsonAsset() {
+        if (DynamicSourcedAsset::available())
+            loads(m_Content);
+
+    }
+
+    DynamicSourcedJsonAsset::DynamicSourcedJsonAsset(const std::string& source, const AssetSource& src, const JsonSchemaAsset* jsonSchema) : DynamicSourcedAsset(source, src), JsonAsset() {
+        if (DynamicSourcedAsset::available())
+            loads(m_Content);
+
+    }
+
+    DynamicSourcedJsonAsset::DynamicSourcedJsonAsset(const char* source, const AssetSource& src, const JsonSchemaAsset* jsonSchema) : DynamicSourcedAsset(source, src), JsonAsset() {
+        if (DynamicSourcedAsset::available())
+            loads(m_Content);
+    }
+
+    DynamicSourcedJsonAsset::DynamicSourcedJsonAsset(const std::vector<char>& source, const AssetSource& src, const JsonSchemaAsset* jsonSchema) : DynamicSourcedAsset(source, src), JsonAsset() {
+        if (DynamicSourcedAsset::available())
+            loads(m_Content);
+    }
+
+    DynamicSourcedJsonAsset::DynamicSourcedJsonAsset(const std::string& source, const AssetSource& src, JsonSchema* jsonSchema) : DynamicSourcedAsset(source, src), JsonAsset() {
+        if (DynamicSourcedAsset::available())
+            loads(m_Content);
+    }
+
+    DynamicSourcedJsonAsset::DynamicSourcedJsonAsset(const char* source, const AssetSource& src, JsonSchema* jsonSchema) : DynamicSourcedAsset(source, src), JsonAsset() {
+        if (DynamicSourcedAsset::available())
+            loads(m_Content);
+    }
+
+    DynamicSourcedJsonAsset::DynamicSourcedJsonAsset(const std::vector<char>& source, const AssetSource& src, JsonSchema* jsonSchema) : DynamicSourcedAsset(source, src), JsonAsset() {
+        if (DynamicSourcedAsset::available())
+            loads(m_Content);
+    }
+
+    void DynamicSourcedJsonAsset::dispose() {
+        JsonAsset::dispose();
+        DynamicSourcedAsset::dispose();
+    }
+
+    bool DynamicSourcedJsonAsset::available() {
+        return DynamicSourcedAsset::available() && JsonAsset::available();
+    }
 
 }
