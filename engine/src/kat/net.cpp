@@ -1,13 +1,12 @@
 #include "kat/net.hpp"
 
-#include <cpr/cpr.h>
 
 namespace kat {
-    JsonSchema loadJSONSchemaURL(const std::string& url) {
+    JsonSchema* loadJSONSchemaURL(const std::string& url) {
         std::string text;
         try {
             text = net::get(url);
-        } catch (std::runtime_error& e) {
+        } catch (std::runtime_error e) {
             spdlog::error("Failed to load JSON schema from url `{}`. Using blank schema.", url);
             text = "{}";
         }
@@ -18,16 +17,16 @@ namespace kat {
         std::string text;
         try {
             text = net::get(url);
-        } catch (std::runtime_error& e) {
+        } catch (std::runtime_error e) {
             spdlog::error("Failed to load JSON from url. Using blank json", url);
             text = "";
         }
         return loadJSONMemory(text);
     }
 
-    rapidjson::Document loadJSONURL(const std::string& url, JsonSchema& schema) {
+    rapidjson::Document loadJSONURL(const std::string& url, JsonSchema*  schema) {
         rapidjson::Document d = loadJSONURL(url);
-        if (schema.isDocumentValid(d)) {
+        if (schema-?isDocumentValid(d)) {
             return d;
         }
 
@@ -41,7 +40,7 @@ namespace kat {
                 return r.text;
             }
 
-            throw std:runtime_error("Failed to get `" + url + "`: " + std::to_string(r.status_code) + ": " r.reason);
+            throw std::runtime_error("Failed to get `" + url + "`: " + std::to_string(r.status_code) + ": " + r.reason);
         }
     }
 }

@@ -22,7 +22,6 @@ void SandboxApp::cleanup() {
 
 int main() {
     SandboxApp app;
-
     app.launch();
     return 0;
 }

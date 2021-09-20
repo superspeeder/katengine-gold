@@ -19,7 +19,7 @@ namespace kat {
         return document;
     }
 
-    JsonSchema loadJSONSchema(const std::string& path) {
+    JsonSchema* loadJSONSchema(const std::string& path) {
         std::string text;
         try {
             text = readFile(path);
@@ -30,8 +30,7 @@ namespace kat {
         return loadJSONSchemaMemory(text);
     }
 
-    JsonSchema loadJSONSchemaMemory(const std::string& text) {
-        JsonSchema schema;
+    JsonSchema* loadJSONSchemaMemory(const std::string& text) {
         rapidjson::Document doc;
         doc.Parse(text.c_str());
         if (doc.HasParseError()) {
@@ -39,9 +38,8 @@ namespace kat {
             doc.Parse("{}");
         }
 
-        schema.doc = rapidjson::SchemaDocument(doc);
-        schema.validator = rapidjson::SchemaValidator(schema.doc);
-        return schema;
+
+        return new JsonSchema(doc);
     }
 
     std::string readFile(const std::string& path) {
@@ -60,18 +58,18 @@ namespace kat {
         return buf;
     }
 
-    rapidjson::Document loadJSON(const std::string& path, JsonSchema& schema) {
+    rapidjson::Document loadJSON(const std::string& path, JsonSchema* schema) {
         rapidjson::Document d = loadJSON(path);
-        if (schema.isDocumentValid(d)) {
+        if (schema->isDocumentValid(d)) {
             return d;
         }
 
         throw std::runtime_error("Schema failed to validate");
     }
 
-    rapidjson::Document loadJSONMemory(const std::string& text, JsonSchema& schema) {
+    rapidjson::Document loadJSONMemory(const std::string& text, JsonSchema* schema) {
         rapidjson::Document d = loadJSONMemory(text);
-        if (schema.isDocumentValid(d)) {
+        if (schema->isDocumentValid(d)) {
             return d;
         }
 
@@ -82,6 +80,9 @@ namespace kat {
         return doc.Accept(validator);
     }
 
+    JsonSchema::JsonSchema(rapidjson::Document& doc_) : doc(doc_), validator(doc) {
+
+    }
 
 
 }

@@ -102,8 +102,10 @@ namespace kat {
     ApplicationConfig ApplicationConfig::load(const std::string& path) {
         // read file
 
-        rapidjson::Document cfgdoc = loadJSON(path);
+
+
+//        rapidjson::Document cfgdoc = loadJSON(path, );
         
-        
+        return {};
     }
 }
