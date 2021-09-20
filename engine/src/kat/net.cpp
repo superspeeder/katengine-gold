@@ -26,7 +26,7 @@ namespace kat {
 
     rapidjson::Document loadJSONURL(const std::string& url, JsonSchema*  schema) {
         rapidjson::Document d = loadJSONURL(url);
-        if (schema-?isDocumentValid(d)) {
+        if (schema->isDocumentValid(d)) {
             return d;
         }
 

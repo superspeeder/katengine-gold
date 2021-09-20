@@ -217,7 +217,7 @@ namespace kat {
 
         virtual ~JsonSchemaAsset();
 
-        JsonSchema* getSchema();
+        JsonSchema* getSchema() const;
 
         virtual void dispose() override;
         virtual bool available() override;
@@ -233,7 +233,7 @@ namespace kat {
 
         JsonAsset(const std::string& document);
         JsonAsset(const std::string& document, const JsonSchemaAsset* jsonSchema);
-        JsonAsset(const std::string& document, const JsonSchema* jsonSchema);
+        JsonAsset(const std::string& document, JsonSchema* jsonSchema);
         JsonAsset();
 
         static constexpr std::string_view type = "json-memory";

@@ -142,7 +142,7 @@ namespace kat {
                 if (resp.status_code == 200) {
                     m_Content = resp.text;
                 } else {
-                    spdlog::warn("Failed to load asset from url `{0}` with status code {1}", resp.url, resp.status_code);
+                    spdlog::warn("Failed to load asset from url `{0}` with status code {1}", resp.url.str(), resp.status_code);
                 }
             }
             break;
@@ -179,7 +179,7 @@ namespace kat {
                     m_Content = resp.text;
                 } else {
                     m_Available = false;
-                    spdlog::error("Failed to load asset from url `{0}` with status code {1}", resp.url, resp.status_code);
+                    spdlog::error("Failed to load asset from url `{0}` with status code {1}", resp.url.str(), resp.status_code);
                 }
             }
             break;
@@ -227,7 +227,7 @@ namespace kat {
                     m_Content = resp.text;
                 } else {
                     m_Available = false;
-                    spdlog::error("Failed to load asset from url `{0}` with status code {1}", resp.url, resp.status_code);
+                    spdlog::error("Failed to load asset from url `{0}` with status code {1}", resp.url.str(), resp.status_code);
                 }
             }
             break;
@@ -300,7 +300,7 @@ namespace kat {
         return DynamicSourcedAsset::available() && m_Schema != nullptr;
     }
 
-    JsonSchema* JsonSchemaAsset::getSchema() {
+    JsonSchema* JsonSchemaAsset::getSchema() const {
         return m_Schema;
     }
 
@@ -312,8 +312,8 @@ namespace kat {
         m_Document = loadJSONMemory(document, jsonSchema->getSchema());
     }
 
-    JsonAsset::JsonAsset(const std::string& document, const JsonSchema* jsonSchema) {
-
+    JsonAsset::JsonAsset(const std::string& document, JsonSchema* jsonSchema) {
+        m_Document = loadJSONMemory(document, jsonSchema);
     }
 
 
