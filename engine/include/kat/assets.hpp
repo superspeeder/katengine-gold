@@ -273,7 +273,7 @@ namespace kat {
     class AssetManager {
 
     public:
-        AssetManager(const std::string& db);
+        AssetManager();
 
 
         Asset* getAsset(const std::string& typeID, const std::string& id);
