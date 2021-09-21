@@ -91,4 +91,20 @@ namespace kat {
     class Renderer {
     
     };
+
+    class Shader {
+
+    };
+
+    class ShaderPipeline {
+
+    };
+    
+    class RenderPipeline {
+
+    };
+
+    class ComputePipeline {
+
+    };
 }
