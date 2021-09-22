@@ -89,6 +89,10 @@ namespace kat {
         eOpenGL, eVulkan
     };
 
+    struct Version {
+        int major, minor, patch;
+    };
+
     namespace evtmng {
 
         // Utility to clean up enum declarations for event types
