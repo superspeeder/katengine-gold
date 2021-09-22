@@ -84,4 +84,28 @@ namespace kat {
     protected:
         Container* container;
     };
+
+    enum class GraphicsAPI {
+        eOpenGL, eVulkan
+    };
+
+    namespace evtmng {
+
+        // Utility to clean up enum declarations for event types
+        template<unsigned short first, unsigned short count>
+        struct evt_inc { 
+
+            constexpr bool containsLocal(unsigned short local) const {
+                return local >= 0 && local < count;
+            };
+
+            constexpr bool containsGlobal(unsigned short global) const {
+                return global >= first && global < (first + count); 
+            };
+
+            constexpr unsigned short operator()(unsigned short local) const {
+                return local + first;
+            };
+        };
+    }
 }
